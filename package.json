@@ -1,0 +1,22 @@
+{
+  "name": "tynodemw",
+  "version": "0.0.0",
+  "description": "Another node mediawiki library for use on Fandom",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ty-a/tynodemw.git"
+  },
+  "author": "Ty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ty-a/tynodemw/issues"
+  },
+  "homepage": "https://github.com/ty-a/tynodemw#readme",
+  "dependencies": {
+    "needle": "^2.4.1"
+  }
+}
