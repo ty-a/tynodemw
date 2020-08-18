@@ -1,5 +1,8 @@
 var needle = require('needle');
-var config = require('./config.json');
+
+var config = {};
+config.username = null;
+config.password = null;
 
 var edittoken = null;
 var API_LINK = 'https://wreckit-woodhouse.fandom.com/api.php';
@@ -8,6 +11,11 @@ var options = {
   user_agent: 'tynodemw/0.0.0; Message @tya on slack for issues/concerns',
   cookies: {}
 };
+
+function setUserInfo(username, password) {
+  config.username = username;
+  config.password = password;
+}
 
 function logIn(force=false) {
   return new Promise(function(resolve, reject) {
