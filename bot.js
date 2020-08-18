@@ -203,3 +203,4 @@ exports.getPageContent = getPageContent;
 exports.setApiLink = setApiLink;
 exports.logIn = logIn;
 exports.edit = edit;
+exports.setUserInfo = setUserInfo;
