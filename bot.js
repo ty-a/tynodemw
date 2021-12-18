@@ -5,11 +5,12 @@ config.username = null;
 config.password = null;
 
 var edittoken = null;
-var API_LINK = 'https://wreckit-woodhouse.fandom.com/api.php';
+var API_LINK = 'https://community.fandom.com/api.php';
 
 var options = {
   user_agent: 'tynodemw/0.0.0; Message @tya on slack for issues/concerns',
-  cookies: {}
+  cookies: {},
+  headers: { "X-Wikia-WikiaAppsID": "TyA" } // Bypass Missing pow counter headers
 };
 
 function setUserInfo(username, password) {
