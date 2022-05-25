@@ -10,7 +10,9 @@ var API_LINK = 'https://community.fandom.com/api.php';
 var options = {
   user_agent: 'tynodemw/0.0.0; Message @tya on slack for issues/concerns',
   cookies: {},
-  headers: { "X-Wikia-WikiaAppsID": "TyA" } // Bypass Missing pow counter headers
+  headers: { "X-Wikia-WikiaAppsID": "TyA", // Bypass Missing pow counter headers
+             "X-Fandom-Auth": "1"
+          }
 };
 
 function setUserInfo(username, password) {
@@ -21,7 +23,7 @@ function setUserInfo(username, password) {
 function logIn(force=false) {
   return new Promise(function(resolve, reject) {
     if(!force) {
-      if(typeof options.cookies.access_token != 'undefined') {
+      if(typeof options.cookies.fandom_session != 'undefined') {
         console.log("should already be logged in.");
         resolve(true);
         return;
@@ -30,7 +32,7 @@ function logIn(force=false) {
 
     edittoken = null; // reset edit token because we've logged out
 
-    needle('post', 'https://services.fandom.com/auth/token',
+    needle('post', 'https://services.fandom.com/mobile-fandom-app/fandom-auth/login',
           { // form data
             username: config.username,
             password: config.password
@@ -38,11 +40,15 @@ function logIn(force=false) {
           options
         ).then(function(response) {
 
-          if(typeof response.body.access_token == 'undefined') {
+          if(typeof response.cookies.fandom_session == 'undefined') {
+            console.log("failed to get session");
             reject(false)
 
           } else {
-            options.cookies = {access_token: response.body.access_token};
+            options.cookies = {
+              fandom_session: response.cookies.fandom_session,
+              access_token: response.cookies.fandom_session
+              };
             resolve(true);
           }
         })
@@ -137,12 +143,9 @@ function logIn(force=false) {
             },
           options
         ).then(function(resp) {
-            console.log(resp.body);
               if(typeof resp.body.error == 'undefined') {
-                console.log("good");
                 resolve(resp.body);
               } else {
-                console.log("bad");
                 if(resp.body.error.code == "assertuserfailed") {
                   logIn(force=true)
                     .then(function(resp) {
